@@ -1,6 +1,7 @@
 <template>
-  <div class="home">
+  <div class="home-view-container">
     <h1>Adopt a new best friend.</h1>
+    {{ getAllCats.length }}
     {{ animalsCount }}
     <button @click="togglePetForm" class="btn btn-primary">Add new Pet</button>
 
@@ -40,7 +41,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['animalsCount'])
+    ...mapGetters(['animalsCount', 'getAllCats'])
   },
   methods: {
     ...mapActions(['addPet']), // Object spreed Operation 'actions' is for method while 'state' is for computed
@@ -49,11 +50,13 @@ export default {
     },
     handleSubmit() {
       const { species, age, name } = this.formData
+      const type = species === 'cats' ? 'cat' : species === 'dogs' ? 'dog' : ''
       const payload = {
         species,
         pet: {
           name,
-          age
+          age,
+          species: type
         }
       }
       this.addPet(payload)
